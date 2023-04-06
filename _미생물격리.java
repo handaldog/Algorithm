@@ -1,26 +1,37 @@
-package two_week;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class _미생물격리 {
 
-	static class Mic {
+	static class node {
+		int num;
 		int cnt;
 		int dir;
 
-		Mic(int cnt, int dir) {
+		node(int cnt, int dir) {
+
 			this.cnt = cnt;
 			this.dir = dir;
+
+		}
+
+		node(int num, int cnt, int dir) {
+			this.num = num;
+			this.cnt = cnt;
+			this.dir = dir;
+
 		}
 	}
 
 	static int n;
-	static Mic mic[][];
-	static int di[] = { -1, 1, 0, 0 };
+	static node area[][];
+	static node area2[][];
+	static int di[] = { -1, 1, 0, 0 }; // 상:1, 하:2, 좌:3, 우:4
 	static int dj[] = { 0, 0, -1, 1 };
+	static ArrayList<node> list = new ArrayList<>();
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,45 +45,52 @@ public class _미생물격리 {
 			int m = Integer.parseInt(st.nextToken());
 			int k = Integer.parseInt(st.nextToken());
 
-			mic = new Mic[n][n];
+			area = new node[n][n];
+			area2 = new node[n][n];
 
-			for (int kk = 0; kk < k; kk++) {
+			for (int i = 0; i < k; i++) {
 				st = new StringTokenizer(br.readLine());
-				int i = Integer.parseInt(st.nextToken());
-				int j = Integer.parseInt(st.nextToken());
+				int x = Integer.parseInt(st.nextToken());
+				int y = Integer.parseInt(st.nextToken());
 				int cnt = Integer.parseInt(st.nextToken());
 				int dir = Integer.parseInt(st.nextToken());
 
-				mic[i][j] = new Mic(cnt, dir);
+				area[x][y] = new node(cnt, dir);
 			}
 
 			for (int i = 0; i < m; i++) {
 
+				// 리스트 정렬시키기, 그리고 뽑아내면서 비교
+				
+				// copyarea를 검사하고, area에 덮어 씌우기
 			}
 
 		}
 	}
 
+	public static void move() {
 
-	public static void check() {
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
-				int nexti = i + di[mic[i][j].dir];
-				int nextj = j + dj[mic[i][j].dir];
+				if (area[i][j] != null) {
+					int nexti = i + di[area[i][j].dir];
+					int nextj = j + dj[area[i][j].dir];
 
-				if (nexti == 0 || nextj == n - 1) {
+					if (area2[nexti][nextj] == null) {
+						area2[nexti][nextj] = new node(area[i][j].cnt, area[i][j].dir);
 
-					if (mic[nexti][nextj].cnt == 0) {
-						mic[i][j].cnt = mic[nexti][nextj].cnt;
-						mic[i][j].cnt = 0;
-					} else {
-						mic[nexti][nextj].cnt += mic[i][j].cnt;
-						mic[i][j].cnt = 0;
-						Math.max(mic[i][j].cnt, mic[nexti][nextj].cnt);
+					}
+					// 가야할 군집에 다른 군집이 존재함.
+					else if (area2[nexti][nextj] != null) {
+						list.add(new node(nexti * n + nextj, area[i][j].cnt, area[i][j].dir));
 					}
 				}
 			}
 		}
+	}
+
+	public static void check() {
+
 	}
 
 }
