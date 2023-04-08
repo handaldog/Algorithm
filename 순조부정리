@@ -1,0 +1,84 @@
+## 순열 (순서가 중요함.)
+
+public static void 순열(int idx){
+
+// 탈출 조건을 걸어줌.
+if(cnt == N){
+  sysout("탈출!");
+return;
+}
+for(int i=0;i<=원하는 숫자;i++){
+
+if(visit[i])continue;
+result[i] = i;
+visit[i] = true;
+순열(idx+1);
+visit[i]=false;
+}
+}
+
+// 순열 결과 (1,2,3중에 2개 뽑기)
+1 2
+1 3 
+2 3
+2 1
+3 1
+3 2
+
+## 조합 (순서가 안중요함.)
+
+public static void 조합(int start, int idx){
+
+// 탈출 조건을 걸어줌.
+if(cnt == N){
+  sysout("탈출!");
+return;
+}
+for(int i=start;i<=원하는 숫자;i++){
+
+if(visit[i])continue;
+result[i] = i;
+visit[i] = true;
+조합(i+1, idx+1);
+visit[i]=false;
+}
+}
+
+// 조합 결과 (1,2,3중에 2개 뽑기)
+1 2
+1 3 
+2 3
+
+
+## 부분집합 (순서가 안중요하면서 모든 경우의 수 다 뽑기)
+
+public static void 부분집합(int idx){
+
+// 탈출 조건을 걸어줌.
+if(cnt == N){
+  트루인거 뽑기
+  sysout("탈출!");
+return;
+}
+for(int i=0;i<=원하는 숫자;i++){
+
+if(visit[i])continue;
+visit[i] = true;
+부분집합(idx+1);
+visit[i]=false;
+부분집합(idx+1);
+}
+}
+
+// 부분집합 결과
+공집합
+1
+2
+3
+1 2
+1 3 
+2 3
+1 2 3
+
+
+
